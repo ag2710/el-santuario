@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import styles from './register.module.scss';
-import "../styles/globals.scss"
+import "../styles/globals.scss";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -35,7 +35,10 @@ export default function RegisterPage() {
     <div className={styles.container}>
       {/* Imagen mágica (invertida) a la izquierda */}
       <div className={styles.imageSection}>
-  <img src="/assets/register.png" alt="Ave mágica" />
+      /* eslint-disable @next/next/no-img-element */
+      <img src="/assets/register.png" alt="Ave mágica" className={styles.img}/>
+      /* eslint-enable @next/next/no-img-element */
+  
 </div>
 
       {/* Formulario a la derecha */}

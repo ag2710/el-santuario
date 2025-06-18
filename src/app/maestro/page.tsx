@@ -46,7 +46,7 @@ export default function MaestrosPage() {
     try {
       await fetch(`/api/criaturas/${id}`, { method: "DELETE" });
       setCriaturas((prev) => prev.filter((c) => c.id !== id));
-    } catch (err) {
+    } catch {
       alert("Error al eliminar la criatura");
     }
   };
