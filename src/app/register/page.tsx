@@ -35,9 +35,9 @@ export default function RegisterPage() {
     <div className={styles.container}>
       {/* Imagen mágica (invertida) a la izquierda */}
       <div className={styles.imageSection}>
-      /* eslint-disable @next/next/no-img-element */
+      {/* eslint-disable @next/next/no-img-element */}
       <img src="/assets/register.png" alt="Ave mágica" className={styles.img}/>
-      /* eslint-enable @next/next/no-img-element */
+      {/* eslint-enable @next/next/no-img-element */}
   
 </div>
 
