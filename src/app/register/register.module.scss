@@ -1,16 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Sedan+SC&display=swap');
+ 
 
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  background: none;
-  overflow: hidden;
-}
-
-body {
-  font-family: 'Sedan SC', serif;
-}
 
 .container {
   display: flex;
@@ -51,7 +41,7 @@ body {
     font-size: 1.75rem;
     margin-bottom: 0.8rem;
 
-    
+
   }
 
   p {

@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import styles from './register.module.scss';
+import "../styles/globals.scss"
 
 export default function RegisterPage() {
   const router = useRouter();

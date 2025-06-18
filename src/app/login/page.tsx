@@ -3,6 +3,7 @@
 import { signIn } from "next-auth/react";
 import { useState } from "react";
 import styles from "./login.module.scss";
+import "../styles/globals.scss"
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
