@@ -1,4 +1,4 @@
-import NextAuth, { NextAuthOptions } from "next-auth";
+import NextAuth, { type NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { PrismaClient } from "@prisma/client";
@@ -8,12 +8,18 @@ const prisma = new PrismaClient();
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
-
+  session: {
+    strategy: "jwt",
+  },
   providers: [
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        email: { label: "Correo", type: "email", placeholder: "email@santuario.com" },
+        email: {
+          label: "Correo",
+          type: "email",
+          placeholder: "email@santuario.com",
+        },
         password: { label: "Contraseña", type: "password" },
       },
       async authorize(credentials) {
@@ -23,17 +29,12 @@ export const authOptions: NextAuthOptions = {
           where: { email: credentials.email },
         });
 
-        if (!user) {
-          throw new Error("Usuario no encontrado");
-        }
+        if (!user) throw new Error("Usuario no encontrado");
 
         const isValid = await bcrypt.compare(credentials.password, user.password);
-        if (!isValid) {
-          throw new Error("Contraseña incorrecta");
-        }
+        if (!isValid) throw new Error("Contraseña incorrecta");
 
-        // Asegúrate de que el rol sea en minúsculas para coincidir con el Enum de Prisma
-        const role = user.role.toLowerCase() as "maestro" | "cuidador";
+        const role = user.role?.toLowerCase() as "maestro" | "cuidador";
 
         if (role !== "maestro" && role !== "cuidador") {
           throw new Error("Rol inválido");
@@ -42,41 +43,29 @@ export const authOptions: NextAuthOptions = {
         return {
           id: user.id,
           email: user.email,
-          role: role,
+          name: user.name ?? null,
+          role,
         };
       },
     }),
   ],
-
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.role = user.role;
+        token.role = (user as any).role; // asegúrate de que `user` tenga `role`
       }
       return token;
     },
     async session({ session, token }) {
-      if (token && session.user) {
+      if (session.user && token?.role) {
         session.user.role = token.role as "maestro" | "cuidador";
       }
       return session;
     },
-    async redirect({ url, baseUrl }) {
-      if (url === "/") {
-        return `${baseUrl}/dashboard`;
-      }
-      return url.startsWith("/") ? `${baseUrl}${url}` : url;
-    },
   },
-
   pages: {
     signIn: "/login",
   },
-
-  session: {
-    strategy: "jwt",
-  },
-
   secret: process.env.NEXTAUTH_SECRET,
 };
 
