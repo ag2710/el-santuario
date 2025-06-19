@@ -1,0 +1,190 @@
+@import url('https://fonts.googleapis.com/css2?family=Sedan+SC&display=swap');
+
+.criaturasContainer {
+  display: flex;
+  min-height: 100vh;
+  font-family: 'Sedan SC', serif;
+  background: white;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+}
+
+.sidebar {
+  width: 260px;
+  background-image: url('/assets/master.png');
+  background-size: cover;
+  background-position: center;
+
+  @media (max-width: 768px) {
+    height: 200px;
+    width: 100%;
+  }
+}
+
+.mainContent {
+  flex: 1;
+  padding: 2rem;
+
+  h1 {
+    color: #c77e01;
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+  }
+
+  p {
+    color: #555;
+    font-size: 1rem;
+    margin-bottom: 2rem;
+  }
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+
+  .logo {
+    font-size: 1.3rem;
+    color: #9c5ce1;
+  }
+
+  .nav {
+    display: flex;
+    gap: 1.5rem;
+
+    a {
+      cursor: pointer;
+      color: #7e4cc3;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: color 0.3s;
+
+      &:hover {
+        color: #5e39a5;
+      }
+    }
+
+    .active {
+      color: #c77e01;
+      text-decoration: underline;
+    }
+  }
+}
+
+.addButton {
+  background: #9c5ce1;
+  color: white;
+  border: none;
+  padding: 0.9rem 1.5rem;
+  border-radius: 12px;
+  font-size: 1rem;
+  margin-bottom: 2rem;
+  cursor: pointer;
+  transition: background 0.3s;
+
+  &:hover {
+    background: #7e4cc3;
+  }
+}
+
+.contenido {
+  display: flex;
+  gap: 2rem;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+}
+
+.filtros {
+  width: 200px;
+
+  h2 {
+    color: #9c5ce1;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  h3 {
+    color: #333;
+    font-size: 0.95rem;
+    margin: 0.5rem 0;
+  }
+
+  .checkbox {
+    display: block;
+    font-size: 0.95rem;
+    margin-bottom: 0.3rem;
+    color: #333;
+
+    input {
+      margin-right: 0.5rem;
+    }
+  }
+
+  .confirmar {
+    margin-top: 1rem;
+    background: #c77e01;
+    color: white;
+    border: none;
+    padding: 0.6rem 1rem;
+    border-radius: 10px;
+    cursor: pointer;
+
+    &:hover {
+      background: #a36300;
+    }
+  }
+}
+
+.listaCriaturas {
+  flex: 1;
+
+  .labelBusqueda {
+    display: block;
+    margin-bottom: 0.4rem;
+    color: #7e4cc3;
+  }
+
+  .buscador {
+    width: 100%;
+    padding: 0.7rem 1rem;
+    border-radius: 10px;
+    border: none;
+    background: #f4f4f4;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    color: #000;
+  }
+
+  .tabla {
+    width: 100%;
+    border-collapse: collapse;
+
+    th,
+    td {
+      padding: 0.8rem;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background: #f0e6ff;
+      color: #7e4cc3;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+    }
+
+    td {
+      font-size: 0.95rem;
+      color: #333;
+    }
+
+    tr:hover {
+      background: #faf5ff;
+    }
+  }
+}

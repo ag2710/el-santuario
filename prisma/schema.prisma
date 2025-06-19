@@ -1,32 +1,33 @@
-// prisma/schema.prisma
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql" // o "mysql" / "sqlite" según uses
-  url      = env("DATABASE_URL")
+  provider = "sqlite" // Puedes cambiarlo a "postgresql" si lo prefieres
+  url      = "file:./dev.db"
 }
 
 model User {
-  id        String     @id @default(cuid())
-  email     String     @unique
-  password  String
-  role      Role
-  creatures Creature[]
+  id          String     @id @default(cuid())
+  name        String
+  email       String     @unique
+  password    String
+  role        Role
+  description String
+  criaturas   Criatura[] // Relación inversa con Criatura
+}
+
+model Criatura {
+  id        Int     @id @default(autoincrement())
+  nombre    String
+  tipo      String
+  nivel     String
+  entrenado Boolean
+  userId    String
+  user      User    @relation(fields: [userId], references: [id])
 }
 
 enum Role {
-  MAESTRO
-  CUIDADOR
-}
-
-model Creature {
-  id     String @id @default(cuid())
-  name   String
-  type   String
-  power  Int
-  userId String
-  user   User   @relation(fields: [userId], references: [id])
+  cuidador
+  maestro
 }

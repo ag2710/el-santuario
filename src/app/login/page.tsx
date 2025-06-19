@@ -4,6 +4,8 @@ import { signIn } from "next-auth/react";
 import { useState } from "react";
 import styles from "./login.module.scss";
 import "../styles/globals.scss"
+import Link from 'next/link';
+
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -52,8 +54,8 @@ export default function LoginPage() {
         </form>
 
         <p className={styles.signup}>
-          ¿No tienes cuenta? Regístrate como maestro o cuidador
-        </p>
+  ¿No tienes cuenta? <Link href="/register">Regístrate como maestro o cuidador</Link>
+</p>
       </div>
     </div>
   );
