@@ -3,7 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { compare } from "bcryptjs";
 import prisma from "./prisma";
 import { AuthOptions } from "next-auth";
-import { Role } from "@prisma/client"; // <- este Role usa los valores "cuidador" | "maestro"
+import { Role } from "@prisma/client"; // "cuidador" | "maestro"
 
 export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -15,17 +15,13 @@ export const authOptions: AuthOptions = {
         password: { label: "Password", type: "password" }
       },
       async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) {
-          return null;
-        }
+        if (!credentials?.email || !credentials?.password) return null;
 
         const user = await prisma.user.findUnique({
           where: { email: credentials.email }
         });
 
-        if (!user || !user.password) {
-          return null;
-        }
+        if (!user || !user.password) return null;
 
         const isValid = await compare(credentials.password, user.password);
         if (!isValid) return null;
@@ -34,7 +30,8 @@ export const authOptions: AuthOptions = {
           id: user.id,
           name: user.name,
           email: user.email,
-          role: user.role, // Esto será "cuidador" o "maestro"
+          role: user.role,
+          description: user.description, // <- incluimos descripción
         };
       }
     })
@@ -45,13 +42,15 @@ export const authOptions: AuthOptions = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.role = (user as any).role; // puede ser "cuidador" o "maestro"
+        token.role = (user as any).role;
+        token.description = (user as any).description;
       }
       return token;
     },
     async session({ session, token }) {
       if (session.user && token) {
-        session.user.role = token.role as Role; // Role = "cuidador" | "maestro"
+        session.user.role = token.role as Role;
+        session.user.description = token.description as string;
       }
       return session;
     }

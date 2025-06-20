@@ -1,52 +1,40 @@
-'use client';
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { redirect } from "next/navigation";
 
-import { useRouter } from 'next/navigation';
-import { signOut } from 'next-auth/react';
-import styles from './perfil.module.scss';
+export default async function PerfilMaestroPage() {
+  const session = await getServerSession(authOptions);
 
-export default function PerfilMaestro() {
-  const router = useRouter();
+  if (!session?.user || session.user.role !== "maestro") {
+    redirect("/login");
+  }
+
+  const { name, email, role, description } = session.user;
 
   return (
-    <div className={styles.perfilContainer}>
-      <aside className={styles.sidebar} />
-      <main className={styles.mainContent}>
-        <header className={styles.header}>
-          <div className={styles.logo}>El Santuario</div>
-          <nav className={styles.nav}>
-            <a onClick={() => router.push('/dashboard/maestro/crear')}>Mis criaturas</a>
-            <a className={styles.active}>Mi perfil</a>
-            <a onClick={() => signOut({ callbackUrl: '/' })}>Cerrar sesión</a>
-          </nav>
-        </header>
+    <div style={{ padding: "2rem" }}>
+      <h1>Perfil del Maestro</h1>
+      <form className="perfil-form">
+        <label>
+          Nombre mágico:
+          <input type="text" value={name || ""} readOnly />
+        </label>
 
-        <h1>Mi perfil</h1>
-        <p>
-          Este es el lugar donde podrás gestionar, actualizar y personalizar la información de tu perfil.
-        </p>
+        <label>
+          Correo electrónico:
+          <input type="email" value={email || ""} readOnly />
+        </label>
 
-        <div className={styles.campo}>
-          <label>Nombre mágico</label>
-          <div className={styles.valor}>Jaime el valiente</div>
-        </div>
+        <label>
+          Rol:
+          <input type="text" value={role} readOnly />
+        </label>
 
-        <div className={styles.campo}>
-          <label>Correo mágico</label>
-          <div className={styles.valor}>jaime_valiente@bestiario.com</div>
-        </div>
-
-        <div className={styles.campo}>
-          <label>Rol</label>
-          <div className={styles.valor}>Maestro</div>
-        </div>
-
-        <div className={styles.campo}>
-          <label>Descripción</label>
-          <div className={styles.descripcion}>
-            Soy Jaime el Valiente, maestro en el arte de invocar y dominar criaturas. En mis partidas, cada criatura tiene una historia, un propósito, y un papel crucial en las épicas aventuras. Desde dragones imponentes hasta criaturas misteriosas de los bosques.
-          </div>
-        </div>
-      </main>
+        <label>
+          Descripción:
+          <textarea value={description || ""} readOnly />
+        </label>
+      </form>
     </div>
   );
 }

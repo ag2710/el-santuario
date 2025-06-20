@@ -7,7 +7,8 @@ declare module "next-auth" {
       id: string;
       name: string;
       email: string;
-      role: Role; // "cuidador" | "maestro"
+      role: Role;
+      description?: string; // <- Añadir esta línea
     };
   }
 
@@ -16,5 +17,6 @@ declare module "next-auth" {
     name: string;
     email: string;
     role: Role;
+    description?: string; // <- Añadir esta línea
   }
 }
