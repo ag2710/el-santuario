@@ -3,6 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { compare } from "bcryptjs";
 import prisma from "./prisma";
 import { AuthOptions } from "next-auth";
+import { Role } from "@prisma/client"; // <- este Role usa los valores "cuidador" | "maestro"
 
 export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -33,7 +34,7 @@ export const authOptions: AuthOptions = {
           id: user.id,
           name: user.name,
           email: user.email,
-          role: user.role, // Importante: el rol se añade aquí
+          role: user.role, // Esto será "cuidador" o "maestro"
         };
       }
     })
@@ -44,13 +45,13 @@ export const authOptions: AuthOptions = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.role = (user as any).role;
+        token.role = (user as any).role; // puede ser "cuidador" o "maestro"
       }
       return token;
     },
     async session({ session, token }) {
       if (session.user && token) {
-        session.user.role = token.role as "maestro" | "cuidador";
+        session.user.role = token.role as Role; // Role = "cuidador" | "maestro"
       }
       return session;
     }
