@@ -1,23 +1,41 @@
 "use client";
 
-import { signIn } from "next-auth/react";
-import { useState } from "react";
+import { signIn, getSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
 import styles from "./login.module.scss";
-import "../styles/globals.scss"
-import Link from 'next/link';
-
 
 export default function LoginPage() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await signIn("credentials", {
+    setLoading(true);
+
+    const res = await signIn("credentials", {
+      redirect: false,
       email,
       password,
-      callbackUrl: "/",
     });
+
+    if (res?.ok) {
+      const session = await getSession();
+
+      if (session?.user?.role === "maestro") {
+        router.push("/dashboard/maestro/criaturas");
+      } else if (session?.user?.role === "cuidador") {
+        router.push("/dashboard/cuidador/criaturas");
+      } else {
+        router.push("/");
+      }
+    } else {
+      alert("Correo o contraseña incorrectos.");
+    }
+
+    setLoading(false);
   };
 
   return (
@@ -27,7 +45,7 @@ export default function LoginPage() {
         <h1>Inicia sesión</h1>
         <p>
           Para acceder a la colección de criaturas mágicas. Sólo los maestros y
-          los cuidadores reconocidos pueden entrar
+          cuidadores reconocidos pueden entrar.
         </p>
         <form onSubmit={handleSubmit}>
           <label htmlFor="email">Correo mágico</label>
@@ -50,12 +68,17 @@ export default function LoginPage() {
             required
           />
 
-          <button type="submit">Acceder al santuario</button>
+          <button type="submit" disabled={loading}>
+            {loading ? "Accediendo..." : "Acceder al santuario"}
+          </button>
         </form>
 
         <p className={styles.signup}>
-  ¿No tienes cuenta? <Link href="/register">Regístrate como maestro o cuidador</Link>
-</p>
+          ¿No tienes cuenta?{" "}
+          <a href="/register" className={styles.link}>
+            Regístrate como maestro o cuidador
+          </a>
+        </p>
       </div>
     </div>
   );

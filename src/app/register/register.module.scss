@@ -1,20 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Sedan+SC&display=swap');
- 
-
 
 .container {
   display: flex;
-  align-items: stretch;
   height: 100vh;
+  font-family: 'Sedan SC', serif;
   overflow: hidden;
-  border: none;
 }
 
-/* ===== Imagen animada expandida ===== */
 .imageSection {
-  flex: 9; /* Ampliamos la imagen (antes 7) */
+  flex: 8;
   position: relative;
-  height: 100%;
 
   .img {
     width: 100%;
@@ -22,39 +17,33 @@
     object-fit: cover;
     object-position: center;
     transform: scaleX(-1);
-    display: block;
   }
 }
 
 .formSection {
-  flex: 4; /* Ampliamos el formulario (antes 2) */
+  flex: 4;
+  background: white;
+  padding: 3rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 3rem; /* Aumentamos el padding para mayor espacio */
-  background-color: #ffffff;
-  color: #222;
-  height: 100%;
 
   h1 {
     color: #C77E01;
-    font-size: 1.75rem;
+    font-size: 1.7rem;
     margin-bottom: 0.8rem;
-
-
   }
 
   p {
     color: #777;
     font-size: 0.95rem;
     margin-bottom: 1.5rem;
-    line-height: 1.5;
   }
 
   form {
     display: flex;
     flex-direction: column;
-    gap: 1rem; /* Aumentamos el espacio entre los elementos del formulario */
+    gap: 1rem;
 
     label {
       font-size: 0.9rem;
@@ -65,26 +54,26 @@
 
     input,
     select {
-      padding: 1rem; /* Aumentamos el padding */
-      border-radius: 8px;
+      padding: 1rem;
+      border-radius: 10px;
       border: 1px solid #eee;
       background-color: #f9f9f9;
       font-size: 1rem;
+      color: #222; // Letra negra
     }
 
     button {
-      margin-top: 1.2rem;
+      margin-top: 1rem;
+      padding: 1rem 2rem;
       background-color: #9C5CE1;
       color: white;
       border: none;
-      padding: 1rem 1.5rem; /* Aumentamos el padding */
-      border-radius: 8px;
+      border-radius: 10px;
       font-size: 0.95rem;
       text-transform: uppercase;
-      cursor: pointer;
-      width: fit-content;
       align-self: center;
-      transition: background-color 0.2s;
+      cursor: pointer;
+      transition: background 0.3s;
 
       &:hover {
         background-color: #7b3db3;
@@ -109,17 +98,13 @@
   }
 }
 
-/* ===== Responsive: Mobile ===== */
 @media (max-width: 768px) {
   .container {
     flex-direction: column;
-    height: auto;
   }
 
   .imageSection {
-    height: 45vh;
-    width: 100%;
-    flex: none;
+    height: 40vh;
 
     .img {
       height: 100%;
@@ -127,43 +112,6 @@
   }
 
   .formSection {
-    height: auto;
-    width: 100%; /* Aseguramos que ocupe todo el ancho disponible */
-    flex: none;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    padding: 3rem; /* Aumentamos el padding para más espacio */
-
-    h1 {
-      font-size: 1.5rem; /* Aumentamos el tamaño del título */
-    }
-
-    p {
-      font-size: 1rem; /* Aumentamos el tamaño del párrafo */
-    }
-
-    form {
-      gap: 1rem; /* Aumentamos el espacio entre los elementos del formulario */
-
-      label {
-        font-size: 0.9rem;
-      }
-
-      input,
-      select {
-        padding: 1rem; /* Aumentamos el padding */
-        font-size: 1rem;
-      }
-
-      button {
-        padding: 1rem 1.25rem; /* Aumentamos el padding */
-        font-size: 1rem;
-        border-radius: 6px;
-      }
-    }
-
-    .loginLink {
-      font-size: 0.85rem; /* Aumentamos el tamaño de la fuente del enlace */
-    }
+    padding: 2rem;
   }
 }

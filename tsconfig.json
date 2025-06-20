@@ -16,7 +16,7 @@
     "types": ["next-auth"],
     "baseUrl": "./src",
     "paths": {
-      "@/*": ["./*"]  // ✅ Cambiado de "*" a "./*"
+      "@/*": ["./*"]  
     },
     "plugins": [
       {

@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import styles from './register.module.scss';
-import "../styles/globals.scss";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -27,21 +26,26 @@ export default function RegisterPage() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('🧙 Registrando:', form);
-    router.push('/login');
+
+    const res = await fetch('/api/auth/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(form),
+    });
+
+    if (res.ok) {
+      router.push('/login');
+    } else {
+      alert('Error al registrar usuario');
+    }
   };
 
   return (
     <div className={styles.container}>
-      {/* Imagen mágica (invertida) a la izquierda */}
       <div className={styles.imageSection}>
-      {/* eslint-disable @next/next/no-img-element */}
-      <img src="/assets/register.png" alt="Ave mágica" className={styles.img}/>
-      {/* eslint-enable @next/next/no-img-element */}
-  
-</div>
+        <img src="/assets/register.png" alt="Ave mágica" className={styles.img} />
+      </div>
 
-      {/* Formulario a la derecha */}
       <div className={styles.formSection}>
         <h1>Únete al santuario</h1>
         <p>
