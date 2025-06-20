@@ -19,6 +19,7 @@ export default function CrearCriaturaCuidador() {
   ) => {
     const { name, value, type } = e.target;
     const checked = (e.target as HTMLInputElement).checked;
+
     setFormData((prev) => ({
       ...prev,
       [name]:
@@ -30,8 +31,10 @@ export default function CrearCriaturaCuidador() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    const queryParams = new URLSearchParams(formData).toString();
     console.log('Criatura registrada:', formData);
-    router.push('/dashboard/cuidador/criaturas');
+    router.push(`/dashboard/cuidador?${queryParams}`);
   };
 
   return (
@@ -128,5 +131,5 @@ export default function CrearCriaturaCuidador() {
         </form>
       </main>
     </div>
-);
+  );
 }
