@@ -25,7 +25,7 @@ export default function LoginPage() {
       const session = await getSession();
 
       if (session?.user?.role === "maestro") {
-        router.push("/dashboard/maestro/criaturas");
+        router.push("/dashboard/criaturas");
       } else if (session?.user?.role === "cuidador") {
         router.push("/dashboard/cuidador/criaturas");
       } else {
