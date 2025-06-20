@@ -2,8 +2,15 @@
 
 import { useState } from 'react';
 
+type CriaturaData = {
+  nombre: string;
+  tipo: string;
+  nivel: string;
+  entrenado: boolean;
+};
+
 type Props = {
-  onSubmit: (data: any) => void;
+  onSubmit: (data: CriaturaData) => void;
 };
 
 export default function FormularioCriatura({ onSubmit }: Props) {
@@ -12,7 +19,7 @@ export default function FormularioCriatura({ onSubmit }: Props) {
   const [nivel, setNivel] = useState('');
   const [entrenado, setEntrenado] = useState(false);
 
-  const manejarEnvio = (e: React.FormEvent) => {
+  const manejarEnvio = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     onSubmit({ nombre, tipo, nivel, entrenado });
   };

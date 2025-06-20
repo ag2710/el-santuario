@@ -28,7 +28,7 @@ export default function MisCriaturas() {
   const router = useRouter();
   const [filtros, setFiltros] = useState<string[]>([]);
   const [busqueda, setBusqueda] = useState('');
-  const [criaturas, setCriaturas] = useState<Criatura[]>(criaturasIniciales);
+  const [criaturas] = useState<Criatura[]>(criaturasIniciales);
 
   const manejarFiltro = (tipo: string) => {
     setFiltros((prev) =>
