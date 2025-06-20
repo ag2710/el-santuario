@@ -13,7 +13,7 @@
 }
 
 .sidebar {
-  width: 240px;
+  width: 300px;
   background-image: url('/assets/master.png');
   background-size: cover;
   background-position: center;
@@ -26,7 +26,7 @@
 
 .mainContent {
   flex: 1;
-  padding: 2rem;
+  padding: 3rem;
 
   .header {
     display: flex;
@@ -35,8 +35,9 @@
     margin-bottom: 2rem;
 
     .logo {
-      font-size: 1.6rem;
+      font-size: 1.8rem;
       color: #c77e01;
+      font-weight: bold;
     }
 
     .nav {

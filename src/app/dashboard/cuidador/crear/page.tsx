@@ -14,40 +14,47 @@ export default function CrearCriaturaCuidador() {
     entrenada: '',
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value, type } = e.target;
     const checked = (e.target as HTMLInputElement).checked;
-
     setFormData((prev) => ({
       ...prev,
-      [name]: type === 'checkbox' || type === 'radio' ? checked.toString() : value,
+      [name]:
+        type === 'radio' || type === 'checkbox'
+          ? checked.toString()
+          : value,
     }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Criatura registrada:', formData);
-    router.push('/dashboard/cuidador');
+    router.push('/dashboard/cuidador/criaturas');
   };
 
   return (
     <div className={styles.crearContainer}>
       <aside className={styles.sidebar} />
+
       <main className={styles.content}>
-        {/* Menú superior */}
+        {/* Navbar */}
         <header className={styles.header}>
-          <div className={styles.logo}>El santuario</div>
+          <div className={styles.logo}>El Santuario</div>
           <nav className={styles.nav}>
-            <Link href="/dashboard/cuidador" className={styles.active}>Mis criaturas</Link>
+            <Link href="/dashboard/cuidador/criaturas" className={styles.active}>
+              Mis criaturas
+            </Link>
             <Link href="/dashboard/cuidador/perfil">Mi perfil</Link>
             <Link href="/api/auth/signout">Cerrar sesión</Link>
           </nav>
         </header>
 
-        {/* Título y descripción */}
-        <h1>Mis criaturas</h1>
+        <h1>Registrar criatura</h1>
         <p>
-          Explora y gestiona todas las criaturas mágicas que has recolectado. Cada una tiene habilidades únicas y características especiales
+          Explora y gestiona todas las criaturas mágicas que has recolectado. Cada
+          una tiene habilidades únicas y características especiales.
         </p>
 
         <form onSubmit={handleSubmit} className={styles.formulario}>
@@ -60,11 +67,17 @@ export default function CrearCriaturaCuidador() {
                 placeholder="Introduce el nombre de la criatura"
                 value={formData.nombre}
                 onChange={handleChange}
+                required
               />
             </div>
             <div>
               <label>Tipo de criatura</label>
-              <select name="tipo" value={formData.tipo} onChange={handleChange}>
+              <select
+                name="tipo"
+                value={formData.tipo}
+                onChange={handleChange}
+                required
+              >
                 <option value="">Elige un tipo</option>
                 <option value="Dragón">Dragón</option>
                 <option value="Fénix">Fénix</option>
@@ -82,6 +95,7 @@ export default function CrearCriaturaCuidador() {
             name="nivel"
             value={formData.nivel}
             onChange={handleChange}
+            required
           />
 
           <div className={styles.entrenada}>
@@ -110,10 +124,9 @@ export default function CrearCriaturaCuidador() {
             </div>
           </div>
 
-          <h2>Creador de criaturas mágicas</h2>
           <button type="submit">Registrar criatura</button>
         </form>
       </main>
     </div>
-  );
+);
 }

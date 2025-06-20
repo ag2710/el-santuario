@@ -27,7 +27,7 @@ export default function LoginPage() {
       if (session?.user?.role === "maestro") {
         router.push("/criaturas");
       } else if (session?.user?.role === "cuidador") {
-        router.push("/dashboard/cuidador/criaturas");
+        router.push("/dashboard/cuidador");
       } else {
         router.push("/");
       }

@@ -1,10 +1,8 @@
-//gestión con permisos
-
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useSession, signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { signOut } from 'next-auth/react';
 import styles from './misCriaturas.module.scss';
 
 type Criatura = {
@@ -14,25 +12,31 @@ type Criatura = {
   entrenado: boolean;
 };
 
-const criaturasIniciales: Criatura[] = [
-  { nombre: 'Abyssaloth', tipo: 'Fénix', nivel: 'IV', entrenado: true },
-  { nombre: 'Luminara', tipo: 'Dragón', nivel: 'I', entrenado: true },
-  { nombre: 'Velokron', tipo: 'Golem', nivel: 'II', entrenado: false },
-  { nombre: 'Zyphra', tipo: 'Vampiro', nivel: 'V', entrenado: true },
-  { nombre: 'Thornclaw', tipo: 'Grifo', nivel: 'III', entrenado: false },
-];
-
 const tiposDisponibles = ['Dragón', 'Fénix', 'Golem', 'Grifo', 'Vampiro'];
 
 export default function MisCriaturas() {
+  const { data: session, status } = useSession();
   const router = useRouter();
+
+  const [criaturas, setCriaturas] = useState<Criatura[]>([]);
   const [filtros, setFiltros] = useState<string[]>([]);
   const [busqueda, setBusqueda] = useState('');
-  const [criaturas] = useState<Criatura[]>(criaturasIniciales);
+
+  useEffect(() => {
+    if (status === 'unauthenticated') router.push('/login');
+  }, [status]);
+
+  useEffect(() => {
+    // Podrías traer criaturas reales desde la API
+    setCriaturas([
+      { nombre: 'Abyssaloth', tipo: 'Fénix', nivel: 'IV', entrenado: true },
+      { nombre: 'Velokron', tipo: 'Golem', nivel: 'II', entrenado: false },
+    ]);
+  }, []);
 
   const manejarFiltro = (tipo: string) => {
-    setFiltros((prev) =>
-      prev.includes(tipo) ? prev.filter((t) => t !== tipo) : [...prev, tipo]
+    setFiltros(prev =>
+      prev.includes(tipo) ? prev.filter(t => t !== tipo) : [...prev, tipo]
     );
   };
 
@@ -42,30 +46,24 @@ export default function MisCriaturas() {
     return coincideTipo && coincideBusqueda;
   });
 
+  if (status === 'loading') return <p>Cargando...</p>;
+
   return (
     <div className={styles.criaturasContainer}>
       <aside className={styles.sidebar}></aside>
-
       <main className={styles.mainContent}>
         <header className={styles.header}>
           <div className={styles.logo}>El Santuario</div>
           <nav className={styles.nav}>
             <a className={styles.active}>Mis criaturas</a>
             <a onClick={() => router.push('/dashboard/maestro/perfil')}>Mi perfil</a>
-
             <a onClick={() => signOut({ callbackUrl: '/' })}>Cerrar sesión</a>
           </nav>
         </header>
 
         <h1>Mis criaturas</h1>
-        <p>
-          Explora y gestiona todas las criaturas mágicas que has recolectado. Cada una tiene habilidades únicas y características especiales
-        </p>
-        <button
-          className={styles.addButton}
-          onClick={() => router.push('/dashboard/maestro/crear')}
-
-        >
+        <p>Gestiona tus criaturas mágicas con poderes extraordinarios.</p>
+        <button className={styles.addButton} onClick={() => router.push('/dashboard/maestro/crear')}>
           Añadir nueva criatura
         </button>
 
