@@ -8,7 +8,7 @@ declare module "next-auth" {
       name: string;
       email: string;
       role: Role;
-      description?: string; // <- Añadir esta línea
+      description?: string;
     };
   }
 
@@ -17,6 +17,6 @@ declare module "next-auth" {
     name: string;
     email: string;
     role: Role;
-    description?: string; // <- Añadir esta línea
+    description?: string;
   }
 }

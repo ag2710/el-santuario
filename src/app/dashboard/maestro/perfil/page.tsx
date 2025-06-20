@@ -1,40 +1,24 @@
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+// src/app/dashboard/maestro/perfil/page.tsx
+'use client';
+
+import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 
-export default async function PerfilMaestroPage() {
-  const session = await getServerSession(authOptions);
+export default function PerfilMaestro() {
+  const { data: session, status } = useSession();
 
-  if (!session?.user || session.user.role !== "maestro") {
+  if (status === "loading") return <p>Cargando...</p>;
+  if (status === "unauthenticated") {
     redirect("/login");
   }
 
-  const { name, email, role, description } = session.user;
-
   return (
-    <div style={{ padding: "2rem" }}>
+    <div>
       <h1>Perfil del Maestro</h1>
-      <form className="perfil-form">
-        <label>
-          Nombre mágico:
-          <input type="text" value={name || ""} readOnly />
-        </label>
-
-        <label>
-          Correo electrónico:
-          <input type="email" value={email || ""} readOnly />
-        </label>
-
-        <label>
-          Rol:
-          <input type="text" value={role} readOnly />
-        </label>
-
-        <label>
-          Descripción:
-          <textarea value={description || ""} readOnly />
-        </label>
-      </form>
+      <p>Nombre mágico: {session?.user?.name}</p>
+      <p>Correo: {session?.user?.email}</p>
+      <p>Rol: {session?.user?.role}</p>
+      <p>Descripción: {session?.user?.description || "Sin descripción"}</p>
     </div>
   );
 }
